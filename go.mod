@@ -40,6 +40,8 @@ require (
 	gopkg.in/yaml.v2 v2.4.0
 )
 
+require github.com/shopspring/decimal v1.3.1
+
 require (
 	cloud.google.com/go v0.110.6 // indirect
 	cloud.google.com/go/compute v1.23.0 // indirect
