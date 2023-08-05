@@ -53,19 +53,19 @@ func combineZ2Point(i int64) float32 {
 	return int64ToFloat32(x)
 }
 
-func ZOrderEncode(x, y float32, bitsNum uint) int64 {
+func ZOrderEncode(x, y float32, bitsNum uint8) int64 {
 	xInt64 := float32ToInt64(x)
 	yInt64 := float32ToInt64(y)
 	var z int64
-	for i := uint(0); i < bitsNum; i++ {
+	for i := uint8(0); i < bitsNum; i++ {
 		z |= ((xInt64 & (1 << i)) << i) | ((yInt64 & (1 << i)) << (i + 1))
 	}
 	return z
 }
 
-func ZOrderDecode(z int64, bitsNum uint) (float32, float32) {
+func ZOrderDecode(z int64, bitsNum uint8) (float32, float32) {
 	var x, y int64 = 0, 0
-	for i := uint(0); i < bitsNum; i++ {
+	for i := uint8(0); i < bitsNum; i++ {
 		x |= (z & (1 << (i * 2))) >> i
 		y |= (z & (1 << (i*2 + 1))) >> (i + 1)
 	}

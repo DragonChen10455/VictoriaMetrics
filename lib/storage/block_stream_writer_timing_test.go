@@ -21,6 +21,14 @@ func BenchmarkBlockStreamWriterRowsBestCase(b *testing.B) {
 	benchmarkBlockStreamWriter(b, benchBlocksBestCase, len(benchRawRowsBestCase), true)
 }
 
+func BenchmarkBlockStreamWriterZ2BlocksWorstCase(b *testing.B) {
+	benchmarkBlockStreamWriter(b, benchBlocksZ2WorstCase, len(benchRawRowsZ2WorstCase), false)
+}
+
+func BenchmarkBlockStreamWriterZ2BlocksBestCase(b *testing.B) {
+	benchmarkBlockStreamWriter(b, benchBlocksZ2BestCase, len(benchRawRowsZ2BestCase), false)
+}
+
 func benchmarkBlockStreamWriter(b *testing.B, ebs []Block, rowsCount int, writeRows bool) {
 	var rowsMerged uint64
 
@@ -60,6 +68,9 @@ func benchmarkBlockStreamWriter(b *testing.B, ebs []Block, rowsCount int, writeR
 
 var benchBlocksWorstCase = newBenchBlocks(benchRawRowsWorstCase)
 var benchBlocksBestCase = newBenchBlocks(benchRawRowsBestCase)
+
+var benchBlocksZ2WorstCase = newBenchBlocks(benchRawRowsZ2WorstCase)
+var benchBlocksZ2BestCase = newBenchBlocks(benchRawRowsZ2BestCase)
 
 func newBenchBlocks(rows []rawRow) []Block {
 	var ebs []Block
