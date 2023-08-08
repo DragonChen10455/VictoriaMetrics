@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"github.com/VictoriaMetrics/VictoriaMetrics/lib/encoding"
 	"log"
 	"net/http"
 	"os"
@@ -93,19 +94,25 @@ func Test_vmNativeProcessor_run(t *testing.T) {
 					Name:       "vm_metric_1",
 					LabelPairs: []vm.LabelPair{{Name: "job", Value: "0"}},
 					Timestamps: []int64{1669368185000, 1669454615000},
-					Values:     []float64{0, 0},
+					//Values:     []float64{0, 0},
+					Values: []float64{float64(encoding.ZOrderEncode(0, 0, 31)),
+						float64(encoding.ZOrderEncode(0, 0, 31))},
 				},
 				{
 					Name:       "vm_metric_1",
 					LabelPairs: []vm.LabelPair{{Name: "job", Value: "1"}},
 					Timestamps: []int64{1669368185000, 1669454615000},
-					Values:     []float64{100, 100},
+					//Values:     []float64{100, 100},
+					Values: []float64{float64(encoding.ZOrderEncode(100, 100, 31)),
+						float64(encoding.ZOrderEncode(100, 100, 31))},
 				},
 				{
 					Name:       "vm_metric_1",
 					LabelPairs: []vm.LabelPair{{Name: "job", Value: "2"}},
 					Timestamps: []int64{1669368185000, 1669454615000},
-					Values:     []float64{200, 200},
+					//Values:     []float64{200, 200},
+					Values: []float64{float64(encoding.ZOrderEncode(200, 200, 31)),
+						float64(encoding.ZOrderEncode(200, 200, 31))},
 				},
 			},
 			wantErr: false,
@@ -136,37 +143,43 @@ func Test_vmNativeProcessor_run(t *testing.T) {
 					Name:       "vm_metric_1",
 					LabelPairs: []vm.LabelPair{{Name: "job", Value: "0"}},
 					Timestamps: []int64{1664184185000},
-					Values:     []float64{0},
+					//Values:     []float64{0},
+					Values: []float64{float64(encoding.ZOrderEncode(0, 0, 31))},
 				},
 				{
 					Name:       "vm_metric_1",
 					LabelPairs: []vm.LabelPair{{Name: "job", Value: "0"}},
 					Timestamps: []int64{1666819415000},
-					Values:     []float64{0},
+					//Values:     []float64{0},
+					Values: []float64{float64(encoding.ZOrderEncode(0, 0, 31))},
 				},
 				{
 					Name:       "vm_metric_1",
 					LabelPairs: []vm.LabelPair{{Name: "job", Value: "1"}},
 					Timestamps: []int64{1664184185000},
-					Values:     []float64{100},
+					//Values:     []float64{100},
+					Values: []float64{float64(encoding.ZOrderEncode(100, 100, 31))},
 				},
 				{
 					Name:       "vm_metric_1",
 					LabelPairs: []vm.LabelPair{{Name: "job", Value: "1"}},
 					Timestamps: []int64{1666819415000},
-					Values:     []float64{100},
+					//Values:     []float64{100},
+					Values: []float64{float64(encoding.ZOrderEncode(100, 100, 31))},
 				},
 				{
 					Name:       "vm_metric_1",
 					LabelPairs: []vm.LabelPair{{Name: "job", Value: "2"}},
 					Timestamps: []int64{1664184185000},
-					Values:     []float64{200},
+					//Values:     []float64{200},
+					Values: []float64{float64(encoding.ZOrderEncode(200, 200, 31))},
 				},
 				{
 					Name:       "vm_metric_1",
 					LabelPairs: []vm.LabelPair{{Name: "job", Value: "2"}},
 					Timestamps: []int64{1666819415000},
-					Values:     []float64{200},
+					//Values:     []float64{200},
+					Values: []float64{float64(encoding.ZOrderEncode(200, 200, 31))},
 				},
 			},
 			wantErr: false,

@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/VictoriaMetrics/VictoriaMetrics/lib/encoding"
 	"log"
 	"net/http"
 	"net/http/httptest"
@@ -301,7 +302,7 @@ func generateTimeStampsAndValues(idx int, startTime, endTime, numOfSamples int64
 	for t != endTime {
 		v := 100 * int64(idx)
 		timestamps = append(timestamps, t*1000)
-		values = append(values, float64(v))
+		values = append(values, float64(encoding.ZOrderEncode(float32(v), float32(v), 31)))
 		t = t + delta
 	}
 
