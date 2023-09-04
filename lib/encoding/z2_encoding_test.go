@@ -50,12 +50,12 @@ func TestDouglasPeucker(t *testing.T) {
 }
 
 func TestEncodingWithBitsNum(t *testing.T) {
-	var x float32 = 123.25
-	var y float32 = 88.97
+	var x float32 = 1
+	var y float32 = 1
 	bits := uint8(31) // 表示x和y坐标所需的位数（根据需要进行调整）
 
 	z := ZOrderEncode(x, y, bits)
-	fmt.Printf("点 (%v, %v) 编码为 Z-order: %b\n", x, y, int64ToFloat32(z))
+	fmt.Printf("点 (%v, %v) 编码为 Z-order: %v\n", x, y, z)
 	_x, _y := ZOrderDecode(z, bits)
 	fmt.Printf("解码为 Z-order: 点 (%v, %v)\n", _x, _y)
 }

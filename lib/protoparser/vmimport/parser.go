@@ -2,6 +2,7 @@ package vmimport
 
 import (
 	"fmt"
+	"github.com/VictoriaMetrics/VictoriaMetrics/lib/encoding"
 	"math"
 	"strings"
 
@@ -73,21 +74,48 @@ func (r *Row) unmarshal(s string, tu *tagsUnmarshaler) error {
 		return fmt.Errorf("missing tags")
 	}
 
+	//// Unmarshal values
+	//values := v.GetArray("values")
+	//if len(values) == 0 {
+	//	return fmt.Errorf("missing `values` array")
+	//}
+	//for i, v := range values {
+	//	f, err := v.Float64()
+	//	if err != nil {
+	//		// Fall back to parsing special values
+	//		f, err = getSpecialFloat64(v)
+	//		if err != nil {
+	//			return fmt.Errorf("cannot unmarshal value at position %d: %w", i, err)
+	//		}
+	//	}
+	//	r.Values = append(r.Values, f)
+	//}
+
 	// Unmarshal values
-	values := v.GetArray("values")
-	if len(values) == 0 {
+	value1s := v.GetArray("value1s")
+	value2s := v.GetArray("value2s")
+	if len(value1s) == 0 || len(value2s) == 0 || len(value1s) != len(value2s) {
 		return fmt.Errorf("missing `values` array")
 	}
-	for i, v := range values {
-		f, err := v.Float64()
+	for i, v := range value1s {
+		f1, err := v.Float64()
 		if err != nil {
 			// Fall back to parsing special values
-			f, err = getSpecialFloat64(v)
+			f1, err = getSpecialFloat64(v)
 			if err != nil {
-				return fmt.Errorf("cannot unmarshal value at position %d: %w", i, err)
+				return fmt.Errorf("value1s cannot unmarshal value at position %d: %w", i, err)
 			}
 		}
-		r.Values = append(r.Values, f)
+		f2, err := value2s[i].Float64()
+		if err != nil {
+			// Fall back to parsing special values
+			f2, err = getSpecialFloat64(v)
+			if err != nil {
+				return fmt.Errorf("value2s cannot unmarshal value at position %d: %w", i, err)
+			}
+		}
+		f := encoding.ZOrderEncode(float32(f1), float32(f2), 31)
+		r.Values = append(r.Values, float64(f))
 	}
 
 	// Unmarshal timestamps
