@@ -40,7 +40,7 @@ require (
 	gopkg.in/yaml.v2 v2.4.0
 )
 
-require github.com/shopspring/decimal v1.3.1
+require github.com/muesli/kmeans v0.3.1
 
 require (
 	cloud.google.com/go v0.110.6 // indirect
@@ -93,6 +93,7 @@ require (
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/mattn/go-runewidth v0.0.15 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.4 // indirect
+	github.com/muesli/clusters v0.0.0-20180605185049-a07a36e67d36 // indirect
 	github.com/mwitkow/go-conntrack v0.0.0-20190716064945-2f068394615f // indirect
 	github.com/oklog/ulid v1.3.1 // indirect
 	github.com/pkg/browser v0.0.0-20210911075715-681adbf594b8 // indirect
