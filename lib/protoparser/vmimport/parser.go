@@ -114,7 +114,7 @@ func (r *Row) unmarshal(s string, tu *tagsUnmarshaler) error {
 				return fmt.Errorf("value2s cannot unmarshal value at position %d: %w", i, err)
 			}
 		}
-		f := encoding.ZOrderEncode(float32(f1), float32(f2), 31)
+		f := encoding.ZOrderEncode32(float32(f1), float32(f2), 32)
 		r.Values = append(r.Values, float64(f))
 	}
 

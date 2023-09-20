@@ -69,7 +69,7 @@ var benchRawRowsZ2WorstCase = func() []rawRow {
 		x := rng.Float32()
 		y := rng.Float32()
 		r.PrecisionBits = uint8(i%64) + 1
-		r.Value = float64(encoding.ZOrderEncode(x, y, r.PrecisionBits))
+		r.Value = float64(encoding.ZOrderEncode32(x, y, r.PrecisionBits))
 		rows = append(rows, r)
 	}
 	return rows

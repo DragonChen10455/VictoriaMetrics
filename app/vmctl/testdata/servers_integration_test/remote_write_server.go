@@ -319,7 +319,7 @@ func generateTimeStampsAndValuesWith2D(idx int, startTime, endTime, numOfSamples
 	for t != endTime {
 		v := 1 * int64(idx)
 		timestamps = append(timestamps, t*1000)
-		values = append(values, float64(encoding.ZOrderEncode(float32(v), float32(v), 31)))
+		values = append(values, float64(encoding.ZOrderEncode32(float32(v), float32(v), 32)))
 		t = t + delta
 	}
 

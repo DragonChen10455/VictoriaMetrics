@@ -5,6 +5,7 @@ import (
 	"github.com/muesli/clusters"
 	"github.com/muesli/kmeans"
 	"github.com/valyala/fastjson"
+	"math"
 	"math/rand"
 	"strconv"
 	"testing"
@@ -56,14 +57,27 @@ func TestDouglasPeucker(t *testing.T) {
 }
 
 func TestEncodingWithBitsNum(t *testing.T) {
-	var x float32 = 1
-	var y float32 = 1
-	bits := uint8(31) // 表示x和y坐标所需的位数（根据需要进行调整）
+	/*****************************************/
+	var x32 float32 = 1.11111111111111111111111
+	var y32 float32 = 2.22222222222222222222222
+	// 表示x和y坐标所需的位数
+	bits32Num := uint8(32)
 
-	z := ZOrderEncode(x, y, bits)
-	fmt.Printf("点 (%v, %v) 编码为 Z-order: %v\n", x, y, z)
-	_x, _y := ZOrderDecode(z, bits)
-	fmt.Printf("解码为 Z-order: 点 (%v, %v)\n", _x, _y)
+	z32 := ZOrderEncode32(x32, y32, bits32Num)
+	fmt.Printf("点 (%v, %v) 编码为 Z-order: %v\n", x32, y32, z32)
+	_x32, _y32 := ZOrderDecode32(z32, bits32Num)
+	fmt.Printf("解码为 Z-order: 点 (%v, %v)\n", _x32, _y32)
+
+	/*****************************************/
+	var x64 float64 = 1.11111111111111111111111
+	var y64 float64 = 2.22222222222222222222222
+	// 表示x和y坐标所需的位数
+	bits64Num := uint8(64)
+
+	z64 := ZOrderEncode64(x64, y64, bits64Num)
+	fmt.Printf("点 (%v, %v) 编码为 Z-order: %v\n", x64, y64, z64)
+	_x64, _y64 := ZOrderDecode64(z64, bits64Num)
+	fmt.Printf("解码为 Z-order: 点 (%v, %v)\n", _x64, _y64)
 }
 
 func TestKMeans(t *testing.T) {
@@ -73,8 +87,8 @@ func TestKMeans(t *testing.T) {
 	pointsY := make([]*fastjson.Value, numPoints)
 
 	for i := 0; i < numPoints; i++ {
-		x := rand.Float64() * 10000.0 // 生成0到100之间的随机数，根据您的需求进行调整
-		y := rand.Float64() * 10000.0 // 生成0到100之间的随机数，根据您的需求进行调整
+		x := rand.Float64() * 10000.0
+		y := rand.Float64() * 10000.0
 		xStr := strconv.FormatFloat(x, 'f', -1, 64)
 		yStr := strconv.FormatFloat(y, 'f', -1, 64)
 		pointsX[i] = fastjson.MustParse(xStr)
@@ -104,7 +118,18 @@ func TestKMeans(t *testing.T) {
 	fmt.Printf("Numbers of clusters: %d\n", len(clustersRes))
 
 	for _, c := range clustersRes {
-		fmt.Printf("Centered at x: %.2f y: %.2f\n", c.Center[0], c.Center[1])
+		fmt.Printf("Centered at x: %f y: %f\n", c.Center[0], c.Center[1])
 		fmt.Printf("Matching data points: %+v\n\n", c.Observations)
+
+		absValueX := math.Abs(c.Center[0])
+		bitsNeededX := math.Ceil(math.Log2(absValueX)) + 1
+		absValueY := math.Abs(c.Center[1])
+		bitsNeededY := math.Ceil(math.Log2(absValueY)) + 1
+		bitsNeeded := uint8(math.Max(bitsNeededX, bitsNeededY))
+		fmt.Printf("bitsNeeded: %d\n", bitsNeeded)
+
+		for _, p := range c.Observations {
+			fmt.Printf("data point x: %f y: %f\n", p.Coordinates()[0], p.Coordinates()[1])
+		}
 	}
 }
