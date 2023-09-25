@@ -111,7 +111,8 @@ func UnmarshalTimestamps(dst []int64, src []byte, mt MarshalType, firstTimestamp
 // precisionBits must be in the range [1...64], where 1 means 50% precision,
 // while 64 means 100% precision, i.e. lossless encoding.
 func MarshalValues(dst []byte, values []int64, precisionBits uint8) (result []byte, mt MarshalType, firstValue int64) {
-	return marshalInt64Array(dst, values, precisionBits)
+	//return marshalInt64Array(dst, values, precisionBits)
+	return marshalInt64DeltaXor(dst, values, precisionBits)
 }
 
 // UnmarshalValues unmarshals values from src, appends them to dst and returns
@@ -252,6 +253,12 @@ func unmarshalInt64Array(dst []int64, src []byte, mt MarshalType, firstValue int
 			dst = append(dst, v)
 			itemsCount--
 			v += d
+		}
+		return dst, nil
+	case MarshalTypeDeltaXor:
+		dst, err = unmarshalInt64DeltaXor(dst, src, firstValue, itemsCount)
+		if err != nil {
+			return nil, fmt.Errorf("cannot unmarshal delta value for delta xor: %w", err)
 		}
 		return dst, nil
 	default:
