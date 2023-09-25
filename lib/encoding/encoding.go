@@ -40,6 +40,16 @@ const (
 	// MarshalTypeNearestDelta is used instead of MarshalTypeZSTDNearestDelta
 	// if compression doesn't help.
 	MarshalTypeNearestDelta = MarshalType(6)
+	// extra compression
+	MarshalTypeSwitching    = MarshalType(7)
+	MarshalTypeZSTD         = MarshalType(8)
+	MarshalTypeDeltaXorZSTD = MarshalType(9)
+	MarshalTypeGorillaZ     = MarshalType(10)
+	MarshalTypeDeltaSnappy  = MarshalType(11)
+	MarshalTypeDeltaLZ4     = MarshalType(12)
+	MarshalTypeDelta2Snappy = MarshalType(13)
+	MarshalTypeDelta2LZ4    = MarshalType(14)
+	MarshalTypeDeltaXor     = MarshalType(15)
 )
 
 // NeedsValidation returns true if mt may need additional validation for silent data corruption.
@@ -58,8 +68,8 @@ func (mt MarshalType) NeedsValidation() bool {
 
 // CheckMarshalType verifies whether the mt is valid.
 func CheckMarshalType(mt MarshalType) error {
-	if mt < 0 || mt > 6 {
-		return fmt.Errorf("MarshalType should be in range [0..6]; got %d", mt)
+	if mt < 0 || mt > 15 {
+		return fmt.Errorf("MarshalType should be in range [0..15]; got %d", mt)
 	}
 	return nil
 }

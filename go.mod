@@ -24,7 +24,7 @@ require (
 	github.com/golang/snappy v0.0.4
 	github.com/googleapis/gax-go/v2 v2.12.0
 	github.com/influxdata/influxdb v1.11.2
-	github.com/klauspost/compress v1.16.7
+	github.com/klauspost/compress v1.17.0
 	github.com/prometheus/prometheus v0.46.0
 	github.com/urfave/cli/v2 v2.25.7
 	github.com/valyala/fastjson v1.6.4
@@ -40,7 +40,12 @@ require (
 	gopkg.in/yaml.v2 v2.4.0
 )
 
-require github.com/muesli/kmeans v0.3.1
+require (
+	github.com/bkaradzic/go-lz4 v1.0.0
+	github.com/muesli/clusters v0.0.0-20180605185049-a07a36e67d36
+	github.com/muesli/kmeans v0.3.1
+	github.com/steakknife/hamming v0.0.0-20180906055917-c99c65617cd3
+)
 
 require (
 	cloud.google.com/go v0.110.6 // indirect
@@ -93,7 +98,6 @@ require (
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/mattn/go-runewidth v0.0.15 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.4 // indirect
-	github.com/muesli/clusters v0.0.0-20180605185049-a07a36e67d36 // indirect
 	github.com/mwitkow/go-conntrack v0.0.0-20190716064945-2f068394615f // indirect
 	github.com/oklog/ulid v1.3.1 // indirect
 	github.com/pkg/browser v0.0.0-20210911075715-681adbf594b8 // indirect

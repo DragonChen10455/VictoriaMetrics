@@ -1,4 +1,4 @@
-package encoding_byte
+package threeD_encoding_byte
 
 import (
 	"bytes"
