@@ -9,6 +9,6 @@ func marshalInt64XorDeltaZSTD(dst []byte, a []int64, _ uint8) (result []byte, mt
 	return dst, mt, firstValue
 }
 
-func unmarshalInt64XorDeltaZSTD(dst []int64, src []byte, _ MarshalType, _ int64, itemsCount int) ([]int64, error) {
+func unmarshalInt64XorDeltaZSTD(dst []int64, src []byte, firstValue int64, itemsCount int) ([]int64, error) {
 	return nil, nil
 }
