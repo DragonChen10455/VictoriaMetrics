@@ -91,7 +91,7 @@ func (r *Row) unmarshal(s string, tu *tagsUnmarshaler) error {
 	//	r.Values = append(r.Values, f)
 	//}
 
-	// Unmarshal values
+	// Unmarshal values chl parser
 	value1s := v.GetArray("value1s")
 	value2s := v.GetArray("value2s")
 	if len(value1s) == 0 || len(value2s) == 0 || len(value1s) != len(value2s) {

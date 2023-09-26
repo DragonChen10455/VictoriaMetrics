@@ -6,7 +6,7 @@ import (
 	"github.com/VictoriaMetrics/metrics"
 )
 
-func marshalInt64Switching(dst []byte, a []int64, _ uint8) (result []byte, mt MarshalType, firstValue int64) {
+func marshalInt64Switching(dst []byte, a []int64, _ uint8) (result []byte, firstValue int64) {
 	if len(a) < 1 {
 		logger.Panicf("BUG: a must contain at least 1 item; got %d items", len(a))
 	}
@@ -42,11 +42,10 @@ func marshalInt64Switching(dst []byte, a []int64, _ uint8) (result []byte, mt Ma
 	dst = MarshalVarInt64s(dst, is.A[:totalLen])
 	PutInt64s(is)
 	reCompressedBytes.Add(len(dst))
-	mt = MarshalTypeSwitching
-	return dst, mt, firstValue
+	return dst, firstValue
 }
 
-func unmarshalInt64Switching(dst []int64, a []byte, _ MarshalType, _ int64, itemsCount int) ([]int64, error) {
+func unmarshalInt64Switching(dst []int64, a []byte, _ int64, itemsCount int) ([]int64, error) {
 	if itemsCount < 1 {
 		logger.Panicf("BUG: itemsCount must be greater than 0; got %d", itemsCount)
 	}

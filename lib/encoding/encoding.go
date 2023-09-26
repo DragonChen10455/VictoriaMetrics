@@ -43,7 +43,7 @@ const (
 	// extra compression
 	MarshalTypeSwitching    = MarshalType(7)
 	MarshalTypeZSTD         = MarshalType(8)
-	MarshalTypeDeltaXorZSTD = MarshalType(9)
+	MarshalTypeZSTDDeltaXor = MarshalType(9)
 	MarshalTypeGorillaZ     = MarshalType(10)
 	MarshalTypeDeltaSnappy  = MarshalType(11)
 	MarshalTypeDeltaLZ4     = MarshalType(12)
@@ -113,7 +113,7 @@ func UnmarshalTimestamps(dst []int64, src []byte, mt MarshalType, firstTimestamp
 func MarshalValues(dst []byte, values []int64, precisionBits uint8) (result []byte, mt MarshalType, firstValue int64) {
 	//return marshalInt64Array(dst, values, precisionBits)
 	//return marshalInt64DeltaXor(dst, values, precisionBits)
-	return marshalInt64XorDeltaZSTD(dst, values, precisionBits)
+	return marshalInt64DeltaXorZSTD(dst, values, precisionBits)
 }
 
 // UnmarshalValues unmarshals values from src, appends them to dst and returns
@@ -262,10 +262,10 @@ func unmarshalInt64Array(dst []int64, src []byte, mt MarshalType, firstValue int
 			return nil, fmt.Errorf("cannot unmarshal delta value for delta xor: %w", err)
 		}
 		return dst, nil
-	case MarshalTypeDeltaXorZSTD:
-		dst, err = unmarshalInt64XorDeltaZSTD(dst, src, firstValue, itemsCount)
+	case MarshalTypeZSTDDeltaXor:
+		dst, err = unmarshalInt64DeltaXorZSTD(dst, src, firstValue, itemsCount)
 		if err != nil {
-			return nil, fmt.Errorf("cannot unmarshal delta value for delta xor: %w", err)
+			return nil, fmt.Errorf("cannot unmarshal delta value for delta xor ZSTD: %w", err)
 		}
 		return dst, nil
 	default:

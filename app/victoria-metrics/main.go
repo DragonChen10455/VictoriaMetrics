@@ -41,6 +41,7 @@ var (
 		"Smaller intervals increase disk IO load. Minimum supported value is 1s")
 )
 
+// chl main
 func main() {
 	// Write flags and help message to stdout, since it is easier to grep or pipe.
 	flag.CommandLine.SetOutput(os.Stdout)

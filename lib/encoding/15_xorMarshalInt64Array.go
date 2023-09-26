@@ -6,7 +6,7 @@ import (
 )
 
 // marshalInt64DeltaXor encodes src using `delta xor` encoding
-func marshalInt64DeltaXor(dst []byte, src []int64, _ uint8) (result []byte, mt MarshalType, firstValue int64) {
+func marshalInt64DeltaXor(dst []byte, src []int64, _ uint8) (result []byte, firstValue int64) {
 	if len(src) < 1 {
 		logger.Panicf("BUG: src must contain at least 1 item; got %d items", len(src))
 	}
@@ -25,8 +25,7 @@ func marshalInt64DeltaXor(dst []byte, src []int64, _ uint8) (result []byte, mt M
 
 	dst = MarshalVarInt64s(dst, is.A)
 	PutInt64s(is)
-	mt = MarshalTypeDeltaXor
-	return dst, mt, firstValue
+	return dst, firstValue
 }
 
 // unmarshalInt64DeltaXor decodes src using `delta xor` encoding,
@@ -61,7 +60,7 @@ func unmarshalInt64DeltaXor(dst []int64, src []byte, firstValue int64, itemsCoun
 }
 
 // marshalInt64XorDelta encodes src using `delta xor` encoding
-func marshalInt64XorDelta(dst []byte, src []int64, _ uint8) (result []byte, mt MarshalType, firstValue int64) {
+func marshalInt64XorDelta(dst []byte, src []int64, _ uint8) (result []byte, firstValue int64) {
 	if len(src) < 1 {
 		logger.Panicf("BUG: src must contain at least 1 item; got %d items", len(src))
 	}
@@ -80,8 +79,7 @@ func marshalInt64XorDelta(dst []byte, src []int64, _ uint8) (result []byte, mt M
 
 	dst = MarshalVarInt64s(dst, is.A)
 	PutInt64s(is)
-	mt = MarshalTypeDeltaXor
-	return dst, mt, firstValue
+	return dst, firstValue
 }
 
 // unmarshalInt64XorDelta decodes src using `delta xor` encoding,
